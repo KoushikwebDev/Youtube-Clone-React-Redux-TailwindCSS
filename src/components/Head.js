@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { YOUTUBE_SEARCH_API } from "./utils/constant";
 import { cacheResults } from "./utils/searchSlice";
 import { toogleSlidebar } from "./utils/slice";
+import { addVideo } from "./utils/setVideoSlice";
+import { setSearchValue } from "./utils/searchValueSlice";
 
 function Head() {
   const dispatch = useDispatch();
@@ -12,44 +14,67 @@ function Head() {
   const [value, setValue] = useState(null);
 
   const searchCache = useSelector((store) => store.search);
+  const allVideosCopy = useSelector((store) => store.searchVideoCopy);
+  const searchValue = useSelector((store) => store.searchValue);
+
   // console.log(searchCache);
   useEffect(() => {
     let timer = setTimeout(() => {
-      if (searchCache[searchQuery]) {
+      if (searchCache[searchValue]) {
         console.log(searchCache);
-        setSuggetions(searchCache[searchQuery]);
+        setSuggetions(searchCache[searchValue]);
       } else {
         getSearchSuggetions();
       }
     }, 200);
-
+    searchVideo();
     return () => {
       clearInterval(timer);
     };
-  }, [searchQuery]);
+  }, [searchValue]);
 
   const getSearchSuggetions = async () => {
-    if (searchQuery === value) return;
-    let res = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    if (searchValue === value) return;
+    let res = await fetch(YOUTUBE_SEARCH_API + searchValue);
     let json = await res.json();
     setSuggetions(json[1]);
     setShowSuggetions(true);
 
-    dispatch(cacheResults({ [searchQuery]: json[1] }));
+    dispatch(cacheResults({ [searchValue]: json[1] }));
 
     // console.log(json[1]);
   };
 
   const handleClick = async (suggetion) => {
-    setSearchQuery(suggetion);
+    console.log(suggetion);
+    dispatch(setSearchValue(suggetion));
     setShowSuggetions(false);
     setValue(suggetion);
+    // searchVideo();
   };
 
   const toogleSlide = () => {
     console.log("clicked");
     dispatch(toogleSlidebar());
   };
+
+  // searchVideo
+
+  const searchVideo = () => {
+    console.log("running " + searchValue);
+    if (searchValue === "") {
+      dispatch(addVideo(allVideosCopy));
+    }
+    let filteredVideos = allVideosCopy.filter((video) => {
+      return video.snippet.title
+        .toLowerCase()
+        .trim()
+        .includes(searchValue.toLowerCase());
+    });
+
+    dispatch(addVideo(filteredVideos));
+  };
+  console.log(searchValue);
   return (
     <div className="grid grid-flow-col p-5 shadow-lg ">
       <div className="flex col-span-1 gap-5">
@@ -71,13 +96,23 @@ function Head() {
         <input
           className="w-1/2 border border-gray-500 p-2 rounded-l-full"
           type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchValue}
+          onChange={(e) => {
+            dispatch(setSearchValue(e.target.value));
+            // searchVideo();
+          }}
           // ref={inputRef}
-          // onBlur={() => setShowSuggetions(false)}
+          onBlur={() =>
+            setTimeout(() => {
+              setShowSuggetions(false);
+            }, 200)
+          }
           onFocus={() => setShowSuggetions(true)}
         />
-        <button className="px-4 py-2  border border-gray-500  bg-gray-200 rounded-r-full ">
+        <button
+          onClick={searchVideo}
+          className="px-4 py-2  border border-gray-500  bg-gray-200 rounded-r-full "
+        >
           🔍
         </button>
 

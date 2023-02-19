@@ -97,7 +97,6 @@ const Comment = ({ data }) => {
 // };
 
 const CommentsList = ({ comments }) => {
-  // Disclaimer: Don't use indexes as keys
   return comments.map((comment, index) => (
     <div key={index}>
       <Comment data={comment} />
@@ -107,6 +106,7 @@ const CommentsList = ({ comments }) => {
     </div>
   ));
 };
+
 function CommentContainer() {
   return (
     <div className="m-5 p-2">
