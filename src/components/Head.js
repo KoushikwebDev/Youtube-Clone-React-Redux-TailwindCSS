@@ -8,7 +8,7 @@ import { setSearchValue } from "./utils/searchValueSlice";
 
 function Head() {
   const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const [suggetions, setSuggetions] = useState(null);
   const [showSuggetions, setShowSuggetions] = useState(false);
   const [value, setValue] = useState(null);
@@ -21,7 +21,7 @@ function Head() {
   useEffect(() => {
     let timer = setTimeout(() => {
       if (searchCache[searchValue]) {
-        console.log(searchCache);
+        // console.log(searchCache);
         setSuggetions(searchCache[searchValue]);
       } else {
         getSearchSuggetions();
@@ -46,7 +46,7 @@ function Head() {
   };
 
   const handleClick = async (suggetion) => {
-    console.log(suggetion);
+    // console.log(suggetion);
     dispatch(setSearchValue(suggetion));
     setShowSuggetions(false);
     setValue(suggetion);
@@ -54,14 +54,14 @@ function Head() {
   };
 
   const toogleSlide = () => {
-    console.log("clicked");
+    // console.log("clicked");
     dispatch(toogleSlidebar());
   };
 
   // searchVideo
 
   const searchVideo = () => {
-    console.log("running " + searchValue);
+    // console.log("running " + searchValue);
     if (searchValue === "") {
       dispatch(addVideo(allVideosCopy));
     }
@@ -74,7 +74,7 @@ function Head() {
 
     dispatch(addVideo(filteredVideos));
   };
-  console.log(searchValue);
+  // console.log(searchValue);
   return (
     <div className="grid grid-flow-col p-5 shadow-lg ">
       <div className="flex col-span-1 gap-5">

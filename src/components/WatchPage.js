@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import CommentContainer from "./CommentContainer";
@@ -16,8 +16,9 @@ function WatchPage() {
     dispatch(closeMenu());
 
     return () => {
-      console.log("unmounting");
+      // console.log("unmounting");
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

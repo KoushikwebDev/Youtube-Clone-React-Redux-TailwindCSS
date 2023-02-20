@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { YOUTUBE_VIDEOS_API } from "./utils/constant";
 import { addVideosCopy } from "./utils/searchVideo";
 import { addVideo } from "./utils/setVideoSlice";
-import VideoCard, { RedBorderVideoCard } from "./VideoCard";
+import VideoCard from "./VideoCard";
 
 function VideoContainer() {
   const dispatch = useDispatch();
@@ -19,11 +19,12 @@ function VideoContainer() {
     // setVideos(json.items);
     dispatch(addVideo(json.items));
     dispatch(addVideosCopy(json.items));
-    console.log(json.items);
+    // console.log(json.items);
   };
 
   useEffect(() => {
     getVideos();
+    // eslint-disable-next-line
   }, []);
 
   if (!videos.length)

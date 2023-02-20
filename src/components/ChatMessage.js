@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addMessage } from "./utils/chatSlice";
 import randomNameGenarator from "./utils/randomName";
 
@@ -9,12 +9,12 @@ function ChatMessage({ name, text }) {
   useEffect(() => {
     const interval = setInterval(() => {
       const randomName = randomNameGenarator();
-      console.log("Hello Live Chat");
+      // console.log("Hello Live Chat");
       dispatch(addMessage({ name: randomName, text: "Hello Brother 🚀 " }));
     }, 1000);
 
     return () => {
-      console.log("clearing... interval");
+      // console.log("clearing... interval");
       clearInterval(interval);
     };
   });
