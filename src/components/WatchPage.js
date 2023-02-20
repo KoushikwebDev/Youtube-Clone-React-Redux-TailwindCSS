@@ -28,7 +28,7 @@ function WatchPage() {
         <iframe
           width="900"
           height="415"
-          src={"https://www.youtube.com/embed/" + id + "?autoplay=0"}
+          src={"https://www.youtube.com/embed/" + id + "?autoplay=1"}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
