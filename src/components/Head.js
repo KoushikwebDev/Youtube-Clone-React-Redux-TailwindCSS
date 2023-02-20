@@ -31,6 +31,7 @@ function Head() {
     return () => {
       clearInterval(timer);
     };
+    // eslint-disable-next-line
   }, [searchValue]);
 
   const getSearchSuggetions = async () => {
